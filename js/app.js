@@ -136,45 +136,45 @@ const loadDetails = (details) => {
 }
 
 
+console.log()
 
+let count = !parseInt(localStorage.getItem('count')) ? 0 : parseInt(localStorage.getItem('count'));
+console.log(count);
 
-let count = 0;
-
+// localStorage.setItem('count', 1);
 const addToCart = (id, price) => {
 
-  if (!localStorage.count) {
-
-    
-    count = 1;
+  // if (!localStorage.count) {
 
 
-    updatePrice("price", price);
 
-    updateTaxAndCharge();
-    document.getElementById("total-Products").innerText = count;
-    localStorage.setItem('count',count);
-    
+  //   updatePrice("price", price);
 
-    updateTotal()
-
-  }
-
-  else if(localStorage.count){
-
-    count = count + 1;
+  //   updateTaxAndCharge();
+  //   document.getElementById("total-Products").innerText = count;
+  //   localStorage.setItem('count',1);
 
 
-    updatePrice("price", price);
+  //   updateTotal()
 
-    updateTaxAndCharge();
-    document.getElementById("total-Products").innerText = count;
-    localStorage.setItem('count',count);
-    
-
-    updateTotal()
+  // }
 
 
-  }
+
+  count = count + 1;
+
+
+  updatePrice("price", price);
+
+  updateTaxAndCharge();
+  document.getElementById("total-Products").innerText = count;
+  localStorage.setItem('count', count);
+
+
+  updateTotal()
+
+
+
 
 
 
@@ -254,6 +254,7 @@ const updateTotal = () => {
 
 
 
+// load previous data by if condition
 
 if (localStorage.count) {
   document.getElementById('total-Products').innerText = localStorage.count;
@@ -275,3 +276,17 @@ if (localStorage.gtotal) {
 if (localStorage.tax) {
   document.getElementById('total-tax').innerText = localStorage.tax;
 }
+
+if (localStorage.count) {
+  document.getElementById('total-Products').innerText = localStorage.count;
+}
+
+const order = () => {
+  localStorage.removeItem('count');
+  localStorage.removeItem('total');
+  localStorage.removeItem('charge');
+  localStorage.removeItem('tax');
+  localStorage.removeItem('gtotal');
+  history.go(0)
+}
+
