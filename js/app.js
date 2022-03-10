@@ -32,7 +32,8 @@ const loadProducts = (keyword, id) => {
 };
 
 const search = () => {
-  console.log(allProducts);
+
+  // console.log(allProducts);
   // allProducts.innerHTML =``;
 
   const getInput = document.getElementById('input-field')
@@ -42,7 +43,7 @@ const search = () => {
 
   loadProducts(inputValue.toLowerCase());
 
-  console.log(inputValue.toLowerCase());
+  // console.log(inputValue.toLowerCase());
   getInput.value = '';
 
 
@@ -77,7 +78,7 @@ const showProducts = (products) => {
       <button id="details-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#detailsModal" onclick="showDetails(${product.id})" >Details</button></div>
       `;
     document.getElementById("all-products").appendChild(div);
-    console.log(product.id)
+    // console.log(product.id)
 
 
   }
@@ -89,7 +90,7 @@ const showProducts = (products) => {
 // fetch details
 
 const showDetails = (data) => {
-  console.log(data)
+  // console.log(data)
   loadProducts('', data);
 
 }
@@ -99,7 +100,7 @@ const showDetails = (data) => {
 const loadDetails = (details) => {
 
   const modal = document.getElementById('modal')
-  console.log(modal);
+  // console.log(modal);
 
   modal.innerHTML = `
 
@@ -131,22 +132,59 @@ const loadDetails = (details) => {
 
 `
 
-  console.log(details);
+  // console.log(details);
 }
 
 
 
 
 let count = 0;
+
 const addToCart = (id, price) => {
-  count = count + 1;
-  updatePrice("price", price);
 
-  updateTaxAndCharge();
-  document.getElementById("total-Products").innerText = count;
+  if (!localStorage.count) {
 
-  updateTotal()
+    
+    count = 1;
+
+
+    updatePrice("price", price);
+
+    updateTaxAndCharge();
+    document.getElementById("total-Products").innerText = count;
+    localStorage.setItem('count',count);
+    
+
+    updateTotal()
+
+  }
+
+  else if(localStorage.count){
+
+    count = count + 1;
+
+
+    updatePrice("price", price);
+
+    updateTaxAndCharge();
+    document.getElementById("total-Products").innerText = count;
+    localStorage.setItem('count',count);
+    
+
+    updateTotal()
+
+
+  }
+
+
+
 };
+
+
+
+
+
+
 
 const getInputValue = (id) => {
   const element = document.getElementById(id).innerText;
@@ -159,6 +197,8 @@ const updatePrice = (id, value) => {
   const convertedOldPrice = getInputValue(id);
   const convertPrice = parseFloat(value);
   const total = convertedOldPrice + convertPrice;
+
+  localStorage.setItem('total', total);
   document.getElementById(id).innerText = Math.round(total);
 };
 
@@ -173,14 +213,28 @@ const updateTaxAndCharge = () => {
   if (priceConverted > 200) {
     setInnerText("delivery-charge", 30);
     setInnerText("total-tax", priceConverted * 0.2);
+
+
+    localStorage.setItem('charge', 30)
+    localStorage.setItem('tax', getInputValue('total-tax'))
+
   }
   if (priceConverted > 400) {
     setInnerText("delivery-charge", 50);
     setInnerText("total-tax", priceConverted * 0.3);
+
+    localStorage.setItem('charge', 50)
+    localStorage.setItem('tax', getInputValue('total-tax'))
+
   }
   if (priceConverted > 500) {
     setInnerText("delivery-charge", 60);
     setInnerText("total-tax", priceConverted * 0.4);
+
+    localStorage.setItem('charge', 60);
+    localStorage.setItem('tax', getInputValue('total-tax'))
+
+
   }
 };
 
@@ -189,10 +243,35 @@ const updateTotal = () => {
   const grandTotal =
     getInputValue("price") + getInputValue("delivery-charge") +
     getInputValue("total-tax");
+  console.log(grandTotal)
 
   document.getElementById("total").innerText = grandTotal;
+  localStorage.setItem('gtotal', grandTotal);
 };
 
 
-// loadProducts();
 
+
+
+
+
+if (localStorage.count) {
+  document.getElementById('total-Products').innerText = localStorage.count;
+}
+
+if (localStorage.total) {
+  document.getElementById('price').innerText = localStorage.total;
+}
+
+if (localStorage.charge) {
+  document.getElementById('delivery-charge').innerText = localStorage.charge;
+}
+
+
+if (localStorage.gtotal) {
+  document.getElementById('total').innerText = localStorage.gtotal;
+}
+
+if (localStorage.tax) {
+  document.getElementById('total-tax').innerText = localStorage.tax;
+}
