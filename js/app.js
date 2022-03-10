@@ -109,8 +109,19 @@ const loadDetails = (details) => {
           </div>
 
           <div class="modal-body">
-            ...
+          <img class="product-image" src="${details.image}">
+          <h5>Category : ${details.category}</h5>
+          <h2>Price : ${details.price}</h2>
+
+
+          <p><span class="fs-3 fw-bold">Description :</span> <br> ${details.description}</p>
+
+          <p><span class="fs-3 fw-bold">Rating<span> <span> : ${details.rating.rate}</span><br>
+          <h3>Rate By ${details.rating.count}</h3>
+          </p>
           </div>
+
+          
           
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -120,7 +131,7 @@ const loadDetails = (details) => {
 
 `
 
-  console.log(details.title);
+  console.log(details);
 }
 
 
